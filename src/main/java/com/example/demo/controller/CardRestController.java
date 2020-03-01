@@ -8,10 +8,9 @@ import com.example.demo.model.User;
 import com.example.demo.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/v2/card")
 @RestController
@@ -22,7 +21,7 @@ public class CardRestController {
     CardService cardService;
 
 
-    @RequestMapping(method = RequestMethod.POST, path = "/addcard")
+    @PostMapping(path = "/addcard")
     public ResponseEntity addcard(@RequestBody Card card) throws DuplicateDataException {
 
         cardService.add(card);
@@ -30,12 +29,35 @@ public class CardRestController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, path = "/deletecard")
+    @GetMapping(path = "/getcard")
+    public ResponseEntity getCard() {
+        List<Card> cards = cardService.getAll();
+
+
+        return ResponseEntity.ok(cards);
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity getCard(@PathVariable int id) {
+        Card card = cardService.getById(id);
+        return ResponseEntity.ok(card);
+    }
+
+
+/*/delete/update/
+
+    optional*/
+
+
+
+
+   /* @RequestMapping(method = RequestMethod.GET, path = "/deletecard")
     public ResponseEntity deletecard(@RequestBody Card card) throws NotFoundException {
 
         cardService.delete(card);
         return ResponseEntity.ok().build();
 
 
-    }
+    }*/
 }

@@ -9,6 +9,8 @@ import com.example.demo.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 
@@ -19,10 +21,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public void add(Card card) throws DuplicateDataException {
-
-        boolean exists = cardRepository.existsByNumber(card.getNumber());
-        DuplicateDataException.check(exists, "card.already.exist");
-
+        DuplicateDataException.check(cardRepository.existsByNumber(card.getNumber()), "card.already.exist");
         cardRepository.save(card);
 
     }
@@ -34,6 +33,16 @@ public class CardServiceImpl implements CardService {
         NotFoundException.check(!exists, "card.not.found");
 
         cardRepository.delete(card);
+    }
+
+    @Override
+    public List<Card> getAll() {
+        return cardRepository.findAll();
+    }
+
+    @Override
+    public Card getById(int id) {
+        return null;
     }
 
 

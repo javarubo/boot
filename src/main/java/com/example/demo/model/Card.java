@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Card {
@@ -11,15 +12,10 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false, updatable = false)
     private int id;
-
+    @NotBlank
     private String name;
-
+    @NotBlank
     private int number;
-
-
-
-
-
 
 
     public int getId() {
