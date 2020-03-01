@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 
@@ -11,19 +13,22 @@ public class User {
     @Column(unique = true, nullable = false, updatable = false)
     private int id;
 
+    @NotBlank
     private String name;
-
+    @NotBlank
     private String surname;
 
+    @Email
     private String username;
-
+    @NotBlank
     private String password;
 
     private String code;
 
     private int age;
 
-    private int status;
+    @Enumerated
+    private Status status;
 
 
     public String getName() {
@@ -74,11 +79,11 @@ public class User {
         this.age = age;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }

@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.exceptions.DuplicateDataException;
 import com.example.demo.exceptions.ForbiddenException;
 import com.example.demo.exceptions.NotFoundException;
+import com.example.demo.model.Status;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.ChangeRequestDto;
 import com.example.demo.model.dto.RecoveryRequestDto;
@@ -14,6 +15,7 @@ import com.example.demo.util.MailSenderClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -28,16 +30,17 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public void add(User user) throws DuplicateDataException {
         boolean exists = userRepository.existsByUsername(user.getUsername());
 
         DuplicateDataException.check(exists, "user.already.exist");
 
 
-        user.setStatus(-1);
+        user.setStatus(Status.Unverified);
         user.setCode(Generator.randomString(5));
         userRepository.save(user);
-        mailSenderClient.send("username", "verification", user.getCode());
+        mailSenderClient.send(user.getUsername(), "verification", user.getCode());
 
     }
 
@@ -50,7 +53,7 @@ public class UserServiceImpl implements UserService {
         NotFoundException.check(user == null, "user.not.found");
         ForbiddenException.check(!user.getCode().equals(verifyRequestDto.getCode()), "verify.error");
 
-        user.setStatus(0);
+        user.setStatus(Status.Active);
         userRepository.save(user);
     }
 
@@ -62,10 +65,10 @@ public class UserServiceImpl implements UserService {
 
         NotFoundException.check(user == null, "user.not.found");
 
-        user.setStatus(-1);
+        user.setStatus(Status.Unverified);
         user.setCode(Generator.randomString(5));
         userRepository.save(user);
-        mailSenderClient.send("username", "verification", user.getCode());
+        mailSenderClient.send(user.getUsername(), "verification", user.getCode());
     }
 
     @Override
@@ -80,9 +83,9 @@ public class UserServiceImpl implements UserService {
 
 
         user.setPassword(changeRequestDto.getNewpassword());
-        user.setStatus(0);
+        user.setStatus(Status.Active);
         userRepository.save(user);
-
+        Status.Active.ordinal();
     }
 
 }

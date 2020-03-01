@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RequestMapping("/v2/user")
 @RestController
@@ -43,7 +45,7 @@ public class UserRestController {
 
 
     @RequestMapping(method = RequestMethod.POST, path = "/signOn")
-    public ResponseEntity signOn(@RequestBody User user) throws DuplicateDataException {
+    public ResponseEntity signOn(@RequestBody @Valid User user) throws DuplicateDataException {
 
         userService.add(user);
         return ResponseEntity.ok().build();
