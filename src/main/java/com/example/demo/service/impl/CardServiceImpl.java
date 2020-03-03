@@ -26,13 +26,10 @@ public class CardServiceImpl implements CardService {
 
     }
 
+
     @Override
-    public void delete(Card card) throws NotFoundException {
-        boolean exists = cardRepository.existsByNumber(card.getNumber());
-
-        NotFoundException.check(!exists, "card.not.found");
-
-        cardRepository.delete(card);
+    public void delete(int id) throws NotFoundException {
+        cardRepository.deleteById(id);
     }
 
     @Override
@@ -42,7 +39,18 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Card getById(int id) {
-        return null;
+        return cardRepository.getById(id);
+    }
+
+
+
+    @Override
+    public void update(Card card) throws DuplicateDataException {
+
+        boolean exist = cardRepository.existsByNumberAndIdNot(card.getNumber(), card.getId());
+
+        DuplicateDataException.check(exist, "number.already.exist");
+
     }
 
 

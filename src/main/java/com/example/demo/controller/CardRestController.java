@@ -45,19 +45,23 @@ public class CardRestController {
     }
 
 
-/*/delete/update/
-
-    optional*/
 
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletecard(@PathVariable int id) throws NotFoundException {
 
-
-   /* @RequestMapping(method = RequestMethod.GET, path = "/deletecard")
-    public ResponseEntity deletecard(@RequestBody Card card) throws NotFoundException {
-
-        cardService.delete(card);
+        cardService.delete(id);
         return ResponseEntity.ok().build();
 
 
-    }*/
+    }
+
+    @PutMapping(path = "/update")
+    public ResponseEntity updateCard( @RequestBody Card card ) throws DuplicateDataException {
+        cardService.update(card);
+        return ResponseEntity.ok().build();
+
+    }
+
+
 }

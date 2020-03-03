@@ -13,10 +13,13 @@ import java.util.List;
 public interface CardService {
     void add(Card card) throws DuplicateDataException;
 
-    void delete(Card card) throws NotFoundException;
+
+    void delete(int id) throws NotFoundException;
 
     List<Card> getAll();
 
 
     Card getById(int id);
+
+    void update(Card card) throws DuplicateDataException;
 }
