@@ -1,3 +1,4 @@
+/*
 
 package com.example.demo.config;
 
@@ -14,8 +15,10 @@ public class RuntimeExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = RuntimeException.class)
     protected ResponseEntity handleRuntime(RuntimeException ex, WebRequest webRequest) {
 
+        ex.printStackTrace();
         return ResponseEntity.status(500).body("some is gone wrong,please try later");
 
     }
 }
 
+*/

@@ -25,7 +25,7 @@ public class CardRestController {
     public ResponseEntity addcard(@RequestBody Card card) throws DuplicateDataException {
 
         cardService.add(card);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(card);
     }
 
 

@@ -1,10 +1,13 @@
 package com.example.demo.model;
 
 
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
+@EqualsAndHashCode(exclude = "id")
 public class Card {
 
 
@@ -14,7 +17,7 @@ public class Card {
     private int id;
     @NotBlank
     private String name;
-    @NotBlank
+
     private int number;
 
 
