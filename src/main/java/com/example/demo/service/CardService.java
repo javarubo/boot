@@ -19,7 +19,7 @@ public interface CardService {
     List<Card> getAll();
 
 
-    Card getById(int id);
+    Card getById(int id) throws NotFoundException;
 
     void update(Card card) throws DuplicateDataException;
 }

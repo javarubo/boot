@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,14 +36,20 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public List<Card> getAll() {
+        List<Card> card = cardRepository.findAll();
+        card.forEach(card1 -> System.out.println(card1));
+        List<Card> cardList = card.stream().filter(card1 -> card1.getId() > 5).collect(Collectors.toList());
+        List<Integer> ids = card.stream()
+                .filter(card1 -> card1.getId() > 10)
+                .map(card1 -> card1.getId())
+                .collect(Collectors.toList());
         return cardRepository.findAll();
     }
 
     @Override
-    public Card getById(int id) {
-        return cardRepository.getById(id);
+    public Card getById(int id) throws NotFoundException {
+        return cardRepository.findById(id).orElseThrow(() -> new NotFoundException("card.not.found"));
     }
-
 
 
     @Override
